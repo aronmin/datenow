@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-
 public class AdminService {
 
     private final AdminRepository adminRepository;
@@ -27,7 +26,6 @@ public class AdminService {
 
     @Transactional
     public List<AdminSearchUserDto> userAllSearch() {
-
         List<Member> userAll = adminRepository.findAll();
         List<AdminSearchUserDto> userDtos = userAll.stream()
             .map(AdminSearchUserDto::new)
@@ -57,10 +55,8 @@ public class AdminService {
 
     @Transactional
     public void adminRecommendDelete(Long recommendId) {
-
         EditorCourse editorCourse = adminCourseRepository.findById(recommendId)
             .orElseThrow(()->new EntityNotFoundException("해당 코스를 찾을수 없습니다"));
         editorCourse.setActivated(false);
-
     }
 }

@@ -23,8 +23,11 @@ public class OAuth2FailureHandler extends SimpleUrlAuthenticationFailureHandler 
     private final RefreshTokenService refreshTokenService;
     
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-        AuthenticationException exception) throws IOException, ServletException {
+    public void onAuthenticationFailure(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        AuthenticationException exception
+    ) throws IOException, ServletException {
         
         String requestAccessToken = jwtProvider.resolveToken(request, TokenType.ACCESS_TOKEN);
         if (requestAccessToken == null) {

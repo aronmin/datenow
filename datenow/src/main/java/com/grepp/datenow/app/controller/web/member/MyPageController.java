@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping
 @RequiredArgsConstructor
 public class MyPageController {
+
     @GetMapping("/my-page")
-    public String myPageMain(Model model, @AuthenticationPrincipal Principal principal) {
+    public String myPageMain(
+        Model model,
+        @AuthenticationPrincipal Principal principal
+    ) {
         model.addAttribute("userId", principal.getUsername());
         return "my_page";
     }

@@ -33,7 +33,8 @@ public class EditorCourseApiController {
     @PostMapping("/save")
     public ResponseEntity<ApiResponse<?>> saveCourse(
         @RequestBody EditorCourseSaveDto dto,
-        @AuthenticationPrincipal Principal principal) {
+        @AuthenticationPrincipal Principal principal
+    ) {
 
         String userId = principal.getUsername(); // 또는 getUsername()
         Member member = memberService.findByUserId(userId); // 명확하게 조회
@@ -45,7 +46,8 @@ public class EditorCourseApiController {
     // 코스 이미지 업로드 로직(코스와 따로 업로드)
     @PostMapping("/images")
     public ResponseEntity<ApiResponse<List<String>>> uploadImages(
-        @RequestParam("images") List<MultipartFile> images) {
+        @RequestParam("images") List<MultipartFile> images
+    ) {
 
         List<String> urls = imageService.upload(images);
         return ResponseEntity.ok(ApiResponse.success(urls));

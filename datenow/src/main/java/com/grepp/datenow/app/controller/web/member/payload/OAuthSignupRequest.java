@@ -1,6 +1,5 @@
 package com.grepp.datenow.app.controller.web.member.payload;
 
-import com.grepp.datenow.app.model.member.dto.MemberDto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

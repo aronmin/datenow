@@ -47,9 +47,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
     
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-        FilterChain filterChain) throws ServletException, IOException {
-        
+    protected void doFilterInternal(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        FilterChain filterChain
+    ) throws ServletException, IOException {
         log.info(request.getRequestURI());
         
         String requestAccessToken = jwtProvider.resolveToken(request, TokenType.ACCESS_TOKEN);
@@ -83,9 +85,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
     
-    private void responseToken(HttpServletResponse response, AccessTokenDto newAccessToken,
-        RefreshToken newRefreshToken) {
-        
+    private void responseToken(
+        HttpServletResponse response,
+        AccessTokenDto newAccessToken,
+        RefreshToken newRefreshToken
+    ) {
         ResponseCookie accessTokenCookie =
             TokenCookieFactory.create(TokenType.ACCESS_TOKEN.name(), newAccessToken.getToken(),
                 3000000L);

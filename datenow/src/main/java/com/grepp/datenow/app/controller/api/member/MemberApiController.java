@@ -1,18 +1,14 @@
 package com.grepp.datenow.app.controller.api.member;
 
 import com.grepp.datenow.app.controller.web.member.payload.MemberUpdateRequest;
-import com.grepp.datenow.app.controller.web.member.payload.OAuthSignupRequest;
-import com.grepp.datenow.app.controller.web.member.payload.SignupRequest;
 import com.grepp.datenow.app.model.auth.code.Role;
 import com.grepp.datenow.app.model.auth.domain.Principal;
 import com.grepp.datenow.app.model.like.dto.FavoriteCourseResponse;
 import com.grepp.datenow.app.model.like.service.FavoriteService;
 import com.grepp.datenow.app.model.member.dto.MemberDto;
 import com.grepp.datenow.app.model.member.entity.Member;
-import com.grepp.datenow.app.model.member.repository.MemberRepository;
 import com.grepp.datenow.app.model.member.service.MemberService;
 import com.grepp.datenow.infra.auth.oauth2.user.OAuth2UserInfo;
-import com.grepp.datenow.infra.error.exception.CommonException;
 import com.grepp.datenow.infra.response.ApiResponse;
 import com.grepp.datenow.infra.response.ResponseCode;
 import jakarta.servlet.ServletException;
@@ -25,12 +21,9 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,19 +45,25 @@ public class MemberApiController {
 
 
     @GetMapping("/exists")
-    public ResponseEntity<ApiResponse<Boolean>> checkUserId(@RequestParam String userId) {
+    public ResponseEntity<ApiResponse<Boolean>> checkUserId(
+        @RequestParam String userId
+    ) {
         boolean exists = memberService.isExistsId(userId);
         return ResponseEntity.ok(ApiResponse.success(exists));
     }
 
     @GetMapping("/check/email")
-    public ResponseEntity<ApiResponse<Boolean>> checkEmail(@RequestParam String email) {
+    public ResponseEntity<ApiResponse<Boolean>> checkEmail(
+        @RequestParam String email
+    ) {
         boolean exists = memberService.isExistsEmail(email);
         return ResponseEntity.ok(ApiResponse.success(exists));
     }
 
     @GetMapping("/check/nickname")
-    public ResponseEntity<ApiResponse<Boolean>> checkNickname(@RequestParam String nickname) {
+    public ResponseEntity<ApiResponse<Boolean>> checkNickname(
+        @RequestParam String nickname
+    ) {
         boolean exists = memberService.isExistsNickname(nickname);
         return ResponseEntity.ok(ApiResponse.success(exists));
     }
@@ -93,8 +92,8 @@ public class MemberApiController {
     @PutMapping("/edit/{user_id}")
     public ResponseEntity<ApiResponse<?>> updateMember(
         @PathVariable("user_id") String userId,
-        @RequestBody MemberUpdateRequest request) {
-
+        @RequestBody MemberUpdateRequest request
+    ) {
         memberService.updateMember(userId, request);
         return ResponseEntity
             .status(ResponseCode.OK.status())
@@ -112,7 +111,9 @@ public class MemberApiController {
     }
 
     @PatchMapping("/favorites/{favoriteCourseId}")
-    public ResponseEntity<Void> deleteFavorite(@PathVariable Long favoriteCourseId) {
+    public ResponseEntity<Void> deleteFavorite(
+        @PathVariable Long favoriteCourseId
+    ) {
         favoriteService.deactivateFavorite(favoriteCourseId);
         return ResponseEntity.ok().build();
     }
@@ -121,8 +122,8 @@ public class MemberApiController {
     public ResponseEntity<Void> deactivateMember(
         @AuthenticationPrincipal Principal principal,
         HttpServletRequest request,
-        HttpServletResponse response) throws ServletException {
-
+        HttpServletResponse response
+    ) throws ServletException {
         String userId = principal.getUsername();
         memberService.deactivateMember(userId);
 
@@ -132,7 +133,9 @@ public class MemberApiController {
 
     // 회원 정보 수정 페이지 데이터 전달 + 마이페이지 사이드바
     @GetMapping("/info")
-    public ResponseEntity<MemberDto> getMemberInfo(@AuthenticationPrincipal Principal principal) {
+    public ResponseEntity<MemberDto> getMemberInfo(
+        @AuthenticationPrincipal Principal principal
+    ) {
         String userId = principal.getUsername();
         Member member = memberService.findByUserId(userId);
         MemberDto dto = MemberDto.from(member);

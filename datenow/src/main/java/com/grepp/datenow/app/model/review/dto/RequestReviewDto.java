@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class RequestReviewDto {
-  String content;
-  int star;
-
-
+    String content;
+    int star;
 }

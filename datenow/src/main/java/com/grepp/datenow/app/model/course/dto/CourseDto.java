@@ -2,7 +2,6 @@ package com.grepp.datenow.app.model.course.dto;
 
 import com.grepp.datenow.app.model.course.entity.RecommendCourse;
 import java.util.List;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

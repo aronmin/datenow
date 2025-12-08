@@ -1,6 +1,5 @@
 package com.grepp.datenow.app.model.auth.token;
 
-
 import com.grepp.datenow.app.model.auth.token.entity.RefreshToken;
 import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;

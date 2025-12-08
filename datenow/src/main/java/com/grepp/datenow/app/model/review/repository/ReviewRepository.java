@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review,Long> {
-
   int countByRecommendCourseIdAndActivatedTrue(RecommendCourse course);
 
   List<Review> findAllByRecommendCourseIdAndActivatedTrue(RecommendCourse recommendCourse);

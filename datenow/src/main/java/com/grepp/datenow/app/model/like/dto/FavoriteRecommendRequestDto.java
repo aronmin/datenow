@@ -6,9 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class FavoriteRecommendRequestDto {
-
-  private Long recommendId;
-  private String userId;
-
-
+    private Long recommendId;
+    private String userId;
 }

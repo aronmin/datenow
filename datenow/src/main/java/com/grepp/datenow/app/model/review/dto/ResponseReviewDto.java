@@ -6,18 +6,18 @@ import lombok.Getter;
 
 @Getter
 public class ResponseReviewDto {
-  private Long reviewId;
-  private String nickname;
-  private String content;
-  private int star;
-  private LocalDateTime createdAt;
+    private Long reviewId;
+    private String nickname;
+    private String content;
+    private int star;
+    private LocalDateTime createdAt;
 
-  public ResponseReviewDto(Review review){
+    public ResponseReviewDto(Review review){
     this.reviewId = review.getReviewId();
     this.nickname = review.getId().getNickname();
     this.content = review.getContent();
     this.star = review.getStar();
     this.createdAt = review.getCreatedAt();
-  }
+    }
 
 }

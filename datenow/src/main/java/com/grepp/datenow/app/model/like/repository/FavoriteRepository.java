@@ -13,19 +13,19 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FavoriteRepository extends JpaRepository<FavoriteCourse,Long> {
 
-  Optional<FavoriteCourse> findByMemberAndRecommendCourse(Member member, RecommendCourse recommendCourse);
+    Optional<FavoriteCourse> findByMemberAndRecommendCourse(Member member, RecommendCourse recommendCourse);
 
-  Optional<FavoriteCourse> findByMemberAndEditorCourse(Member member, EditorCourse editorCourse);
+    Optional<FavoriteCourse> findByMemberAndEditorCourse(Member member, EditorCourse editorCourse);
 
-  boolean existsByMemberAndRecommendCourseAndActivatedTrue(Member member, RecommendCourse recommendCourse);
+    boolean existsByMemberAndRecommendCourseAndActivatedTrue(Member member, RecommendCourse recommendCourse);
 
-  boolean existsByMemberAndEditorCourseAndActivatedTrue(Member member, EditorCourse editorCourse);
+    boolean existsByMemberAndEditorCourseAndActivatedTrue(Member member, EditorCourse editorCourse);
 
-  int countByEditorCourse(EditorCourse course);
+    int countByEditorCourse(EditorCourse course);
 
-  int countByEditorCourseAndActivatedTrue(EditorCourse course);
+    int countByEditorCourseAndActivatedTrue(EditorCourse course);
 
-  int countByRecommendCourseAndActivatedTrue(RecommendCourse course);
+    int countByRecommendCourseAndActivatedTrue(RecommendCourse course);
 
     @Query("SELECT f FROM FavoriteCourse f " +
         "LEFT JOIN FETCH f.recommendCourse rc " +

@@ -23,8 +23,11 @@ public class LogoutFilter extends OncePerRequestFilter {
     private final RefreshTokenService refreshTokenService;
     
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-        FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        FilterChain filterChain
+    ) throws ServletException, IOException {
         
         String accessToken = jwtProvider.resolveToken(request, TokenType.ACCESS_TOKEN);
         

@@ -12,7 +12,6 @@ public enum ResponseCode {
     CONFLICT("4009", HttpStatus.CONFLICT, "이미 등록된 코스입니다."),
     PAYLOAD_TOO_LARGE("4013", HttpStatus.PAYLOAD_TOO_LARGE, "요청된 이미지의 크기가 너무 큽니다."), // HTTP 413
     BAD_WORD("4005", HttpStatus.BAD_REQUEST, "비속어가 감지되었습니다."),
-
     INTERNAL_SERVER_ERROR("5000", HttpStatus.INTERNAL_SERVER_ERROR, "서버에러 입니다."),
     SECURITY_INCIDENT("6000", HttpStatus.UNAUTHORIZED, "계정에 비정상적인 접근이 감지되었습니다.");
 

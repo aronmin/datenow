@@ -68,7 +68,8 @@ public class CourseApiController {
     // 내가 만든 데이트 코스 상세정보 조회 (마이페이지)
     @GetMapping("/my-course/{id}")
     public ResponseEntity<ApiResponse<CourseDetailDto>> getCourseDetail(
-        @PathVariable("id") Long courseId) {
+        @PathVariable("id") Long courseId
+    ) {
         CourseDetailDto courseDetailDto = courseService.getCourseDetail(courseId);
         return ResponseEntity.ok(ApiResponse.success(courseDetailDto));
     }
@@ -76,7 +77,8 @@ public class CourseApiController {
     // 내가 만든 데이트 코스 추천 코스 등록 시 사진 업로드
     @PostMapping("/images")
     public ResponseEntity<ApiResponse<?>> uploadImages(
-        @RequestParam("images") List<MultipartFile> images) {
+        @RequestParam("images") List<MultipartFile> images
+    ) {
         // Service 에서 모든 유효성 검사 및 예외 처리를 담당
         // 여기서 예외가 발생하면 RestApiExceptionAdvice 가 처리
         List<String> urls = imageService.upload(images);
@@ -105,7 +107,8 @@ public class CourseApiController {
     @GetMapping("/recommend-course-register")
     public ResponseEntity<?> getMyCourseDetail(
         @RequestParam(required = false) Long courseId,
-        @AuthenticationPrincipal Principal principal) {
+        @AuthenticationPrincipal Principal principal
+    ) {
 
         try {
             CourseDetailDto courseDetail = courseService.getCourseDetail(courseId);

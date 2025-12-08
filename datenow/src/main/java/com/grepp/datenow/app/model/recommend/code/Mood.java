@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum Mood {
-
     ROMANTIC("로맨틱한"),
     COZY("아늑한"),
     TRENDY("트렌디한"),

@@ -3,8 +3,6 @@ package com.grepp.datenow.app.model.member.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grepp.datenow.app.controller.web.member.payload.MemberUpdateRequest;
-import com.grepp.datenow.app.controller.web.member.payload.OAuthSignupRequest;
-import com.grepp.datenow.app.controller.web.member.payload.SignupRequest;
 import com.grepp.datenow.app.model.auth.code.Role;
 import com.grepp.datenow.app.model.course.dto.MyCourseResponse;
 import com.grepp.datenow.app.model.course.entity.Course;
@@ -180,7 +178,6 @@ public class MemberService {
     public boolean isExistsNickname(String nickname){
         return memberRepository.existsByNickname(nickname);
     }
-
 
     @Transactional
     public void updateMember(String userId, MemberUpdateRequest request) {

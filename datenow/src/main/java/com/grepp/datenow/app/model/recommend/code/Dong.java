@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 public enum Dong {
     압구정동, 신사동, 청담동, 논현동,
     삼성동, 역삼동
-
 }
 
 //압구정동, 신사동, 청담동, 논현동,

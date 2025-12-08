@@ -1,7 +1,6 @@
 package com.grepp.datenow.app.model.auth.service;
 
 import com.grepp.datenow.app.controller.api.auth.payload.SigninRequest;
-import com.grepp.datenow.app.model.auth.token.RefreshTokenRepository;
 import com.grepp.datenow.app.model.auth.token.RefreshTokenService;
 import com.grepp.datenow.app.model.auth.token.UserBlackListRepository;
 import com.grepp.datenow.app.model.auth.token.dto.AccessTokenDto;

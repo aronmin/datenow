@@ -19,7 +19,6 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
@@ -29,80 +28,80 @@ import org.springframework.security.jackson2.SecurityJackson2Modules;
 @RequiredArgsConstructor
 public class RedisConfig {
 
-  @Value("${spring.data.redis.port}")
-  private int port;
-  @Value("${spring.data.redis.host}")
-  private String host;
-  @Value("${spring.data.redis.username}")
-  private String username;
-  @Value("${spring.data.redis.password}")
-  private String password;
+    @Value("${spring.data.redis.port}")
+    private int port;
+    @Value("${spring.data.redis.host}")
+    private String host;
+    @Value("${spring.data.redis.username}")
+    private String username;
+    @Value("${spring.data.redis.password}")
+    private String password;
 
-  @Bean
-  public RedisConnectionFactory redisConnectionFactory(){
-    RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
-    configuration.setUsername(username);
-    configuration.setPort(port);
-    configuration.setHostName(host);
-    configuration.setPassword(password);
-    return new LettuceConnectionFactory(configuration);
-  }
+    @Bean
+    public RedisConnectionFactory redisConnectionFactory(){
+        RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
+        configuration.setUsername(username);
+        configuration.setPort(port);
+        configuration.setHostName(host);
+        configuration.setPassword(password);
+        return new LettuceConnectionFactory(configuration);
+    }
+
+    @Bean
+    public RedisSerializer<Object> springSessionDefaultRedisSerializer() {
+
+        ClassLoader loader = getClass().getClassLoader();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModules( SecurityJackson2Modules.getModules(loader));
+
+        // 1. Java 8 Date/Time API 지원을 위한 모듈 등록 (필수 권장)
+        mapper.registerModule(new JavaTimeModule());
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // 날짜를 타임스탬프가 아닌 문자열로 직렬화
+
+        mapper.activateDefaultTyping(
+            BasicPolymorphicTypeValidator.builder()
+                .allowIfBaseType("org.springframework.security.") // 기존 설정 (유지)
+                .allowIfBaseType("com.grepp.datenow")    // 당신의 도메인 객체 패키지 (유지)
+                .build(),
+            ObjectMapper.DefaultTyping.NON_FINAL,
+            JsonTypeInfo.As.PROPERTY
+        );
+
+        return new GenericJackson2JsonRedisSerializer(mapper);
+    }
 
 
+    @Bean
+    public RedisTemplate<String, Object> redisTemplate(
+        RedisConnectionFactory redisConnectionFactory,
+        ObjectMapper objectMapper) {
 
-  @Bean
-  public RedisSerializer<Object> springSessionDefaultRedisSerializer() {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer(objectMapper));
+        return redisTemplate;
+    }
 
-    ClassLoader loader = getClass().getClassLoader();
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.registerModules( SecurityJackson2Modules.getModules(loader));
+    @Bean
+    public PatternTopic channelTopic(){
+        return new PatternTopic("chat.*");//어디채널에
+    }
 
-    // 1. Java 8 Date/Time API 지원을 위한 모듈 등록 (필수 권장)
-    mapper.registerModule(new JavaTimeModule());
-    mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // 날짜를 타임스탬프가 아닌 문자열로 직렬화
+    @Bean
+    public RedisMessageListenerContainer redisMessageListener(
+        MessageListenerAdapter listenerAdapter,
+        PatternTopic channelTopic
+    ){
+        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+        container.setConnectionFactory(redisConnectionFactory());
+        container.addMessageListener(listenerAdapter, channelTopic);
+        return container;
+    }
 
-    mapper.activateDefaultTyping(
-        BasicPolymorphicTypeValidator.builder()
-            .allowIfBaseType("org.springframework.security.") // 기존 설정 (유지)
-            .allowIfBaseType("com.grepp.datenow")    // 당신의 도메인 객체 패키지 (유지)
-            .build(),
-        ObjectMapper.DefaultTyping.NON_FINAL,
-        JsonTypeInfo.As.PROPERTY
-    );
-    return new GenericJackson2JsonRedisSerializer(mapper);
-  }
-
-
-  @Bean
-  public RedisTemplate<String, Object> redisTemplate(
-      RedisConnectionFactory redisConnectionFactory,
-      ObjectMapper objectMapper) {
-
-    RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-    redisTemplate.setConnectionFactory(redisConnectionFactory);
-    redisTemplate.setKeySerializer(new StringRedisSerializer());
-    redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer(objectMapper));
-    return redisTemplate;
-  }
-
-  @Bean
-  public PatternTopic channelTopic(){
-    return new PatternTopic("chat.*");//어디채널에
-  }
-
-  @Bean
-  public RedisMessageListenerContainer redisMessageListener(
-      MessageListenerAdapter listenerAdapter,
-      PatternTopic channelTopic
-  ){
-    RedisMessageListenerContainer container = new RedisMessageListenerContainer();
-    container.setConnectionFactory(redisConnectionFactory());
-    container.addMessageListener(listenerAdapter, channelTopic);
-    return container;
-  }
-  @Bean
-  public MessageListenerAdapter listenerAdapter(RedisSubsctiber subscriber) {
-    return new MessageListenerAdapter(subscriber);
-  }
+    @Bean
+    public MessageListenerAdapter listenerAdapter(RedisSubsctiber subscriber) {
+        return new MessageListenerAdapter(subscriber);
+    }
 
 }

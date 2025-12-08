@@ -4,7 +4,6 @@ import com.grepp.datenow.app.controller.web.member.payload.FindPasswordRequest;
 import com.grepp.datenow.app.controller.web.member.payload.OAuthSignupRequest;
 import com.grepp.datenow.app.controller.web.member.payload.SigninRequest;
 import com.grepp.datenow.app.controller.web.member.payload.SignupRequest;
-import com.grepp.datenow.app.model.auth.code.Role;
 import com.grepp.datenow.app.model.member.service.MemberService;
 import com.grepp.datenow.infra.auth.oauth2.user.OAuth2UserInfo;
 import jakarta.servlet.http.HttpSession;
@@ -44,7 +43,10 @@ public class MemberController {
     }
 
     @GetMapping("/oauth/signup")
-    public String oauthSignupForm(HttpSession session, Model model) {
+    public String oauthSignupForm(
+        HttpSession session,
+        Model model
+    ) {
         OAuth2UserInfo userInfo = (OAuth2UserInfo) session.getAttribute("oauth2_user_info");
         if (userInfo == null) {
             return "redirect:/member/signin";
@@ -84,7 +86,10 @@ public class MemberController {
 
     // 회원 가입 후 인증 메일 클릭
     @GetMapping("/verify")
-    public String verifyEmail(@RequestParam String token, HttpSession session) {
+    public String verifyEmail(
+        @RequestParam String token,
+        HttpSession session
+    ) {
         memberService.verifyEmail(token, session);
         return "redirect:/member/signin?msg=" + URLEncoder.encode("회원가입이 완료되었습니다. 환영합니다!");
         // 이래야 한글이 안깨진다구

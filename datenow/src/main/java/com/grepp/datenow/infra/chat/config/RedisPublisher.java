@@ -12,14 +12,10 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class RedisPublisher {
 
-  private final RedisTemplate<String, Object> redisTemplate;
-  private final PatternTopic topic;
+    private final RedisTemplate<String, Object> redisTemplate;
+    private final PatternTopic topic;
 
-  public void sendMessagePublish(ChatDto chatDto) {
-
-    redisTemplate.convertAndSend("chat."+chatDto.getRoomId(), chatDto);
-
-
-
-  }
+    public void sendMessagePublish(ChatDto chatDto) {
+        redisTemplate.convertAndSend("chat."+chatDto.getRoomId(), chatDto);
+    }
 }

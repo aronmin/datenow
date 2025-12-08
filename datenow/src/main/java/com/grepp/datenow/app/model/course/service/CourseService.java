@@ -5,33 +5,32 @@ import com.grepp.datenow.app.model.course.dto.CourseDto;
 import com.grepp.datenow.app.model.course.dto.MyCourseResponse;
 import com.grepp.datenow.app.model.course.dto.MyDateCourseDto;
 import com.grepp.datenow.app.model.course.entity.Course;
+import com.grepp.datenow.app.model.course.entity.CourseHashtag;
 import com.grepp.datenow.app.model.course.entity.Hashtag;
 import com.grepp.datenow.app.model.course.entity.RecommendCourse;
 import com.grepp.datenow.app.model.course.repository.HashtagRepository;
+import com.grepp.datenow.app.model.course.repository.MyCourseRepository;
 import com.grepp.datenow.app.model.course.repository.RecommendCourseRepository;
 import com.grepp.datenow.app.model.course.repository.RegistMyCourseRepository;
 import com.grepp.datenow.app.model.image.entity.Image;
 import com.grepp.datenow.app.model.image.repository.ImageRepository;
 import com.grepp.datenow.app.model.member.entity.Member;
-import com.grepp.datenow.app.model.course.entity.CourseHashtag;
 import com.grepp.datenow.app.model.place.dto.PlaceDetailDto;
-import com.grepp.datenow.infra.error.exception.course.BadWordsException;
-import jakarta.annotation.PostConstruct;
-import jakarta.persistence.EntityNotFoundException;
-import java.util.Optional;
-import org.springframework.transaction.annotation.Transactional;
-import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
-import com.grepp.datenow.app.model.course.repository.MyCourseRepository;
 import com.grepp.datenow.app.model.place.dto.PlaceSaveDto;
 import com.grepp.datenow.app.model.place.entity.Place;
 import com.grepp.datenow.app.model.place.repository.PlaceRepository;
+import com.grepp.datenow.infra.error.exception.course.BadWordsException;
+import jakarta.annotation.PostConstruct;
+import jakarta.persistence.EntityNotFoundException;
+import java.io.File;
+import java.util.List;
+import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.io.File;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -179,6 +178,7 @@ public class CourseService {
     private String extractFileName(String path) {
         return path.substring(path.lastIndexOf('/') + 1);
     }
+
     @Transactional(readOnly = true)
     public CourseDetailDto getCourseDetail(Long courseId) {
         Course course = getCourseById(courseId);
