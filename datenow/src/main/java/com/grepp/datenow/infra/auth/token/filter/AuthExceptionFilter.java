@@ -48,7 +48,8 @@ public class AuthExceptionFilter extends OncePerRequestFilter {
         }
         
         if(code.equals(ResponseCode.INVALID_TOKEN) ||
-            code.equals(ResponseCode.SECURITY_INCIDENT)
+            code.equals(ResponseCode.SECURITY_INCIDENT) ||
+            code.equals(ResponseCode.TOKEN_EXPIRED)
         ){
             handlerExceptionResolver.resolveException(request, response, null,
                 new AuthWebException(code, "/member/signin"));

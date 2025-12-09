@@ -25,32 +25,24 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     
     public JwtAuthenticationEntryPoint(
         @Qualifier("handlerExceptionResolver")
-        HandlerExceptionResolver handlerExceptionResolver) {
+        HandlerExceptionResolver handlerExceptionResolver
+    ) {
         this.handlerExceptionResolver = handlerExceptionResolver;
     }
     
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response,
-        AuthenticationException authException) throws IOException, ServletException {
-        ResponseCode responseCode = switch(authException){
-            case BadCredentialsException bce -> {
-                log.warn(bce.getMessage());
-                yield ResponseCode.BAD_CREDENTIAL;
-            }
-            case CompromisedPasswordException cpe -> {
-                log.warn(cpe.getMessage());
-                yield ResponseCode.SECURITY_INCIDENT;
-            }
-            case InsufficientAuthenticationException iae -> {
-                log.warn(iae.getMessage());
-                yield ResponseCode.UNAUTHORIZED;
-            }
-         
-            default -> {
-                log.warn(authException.getMessage());
-                yield ResponseCode.BAD_REQUEST;
-            }
-        };
+    public void commence(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        AuthenticationException authException
+    ) throws IOException, ServletException {
+        ResponseCode responseCode =
+            switch(authException){
+                case BadCredentialsException bce -> ResponseCode.BAD_CREDENTIAL;
+                case CompromisedPasswordException cpe -> ResponseCode.SECURITY_INCIDENT;
+                case InsufficientAuthenticationException iae -> ResponseCode.AUTH_REQUIRED;
+                default -> ResponseCode.BAD_REQUEST;
+            };
         
         if(request.getRequestURI().startsWith("/api")){
             handlerExceptionResolver.resolveException(request, response, null, new AuthApiException(responseCode));
