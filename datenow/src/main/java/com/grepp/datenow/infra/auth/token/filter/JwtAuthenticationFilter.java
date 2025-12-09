@@ -88,13 +88,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         AccessTokenDto newAccessToken,
         RefreshToken newRefreshToken
     ) {
+        long accessTokenExpires = jwtProvider.getAtExpiration();
+        long refreshTokenExpires = jwtProvider.getRtExpiration();
+
         ResponseCookie accessTokenCookie =
-            TokenCookieFactory.create(TokenType.ACCESS_TOKEN.name(), newAccessToken.getToken(),
-                3000000L);
+            TokenCookieFactory.create(
+                TokenType.ACCESS_TOKEN.name(),
+                newAccessToken.getToken(),
+                accessTokenExpires);
         
         ResponseCookie refreshTokenCookie =
-            TokenCookieFactory.create(TokenType.REFRESH_TOKEN.name(), newRefreshToken.getToken(),
-                jwtProvider.getAtExpiration());
+            TokenCookieFactory.create(
+                TokenType.REFRESH_TOKEN.name(),
+                newRefreshToken.getToken(),
+                refreshTokenExpires);
         
         response.addHeader("Set-Cookie", accessTokenCookie.toString());
         response.addHeader("Set-Cookie", refreshTokenCookie.toString());

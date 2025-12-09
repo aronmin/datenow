@@ -8,7 +8,7 @@ public class TokenCookieFactory {
     public static ResponseCookie create(String name, String value, Long expires){
         return from(name, value)
                    .httpOnly(true)
-                   .maxAge(expires)
+                   .maxAge(expires / 1000)
                    .secure(false)
                    .path("/")
                    .build();
