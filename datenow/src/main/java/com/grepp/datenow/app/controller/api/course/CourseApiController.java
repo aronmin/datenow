@@ -6,6 +6,7 @@ import com.grepp.datenow.app.model.course.dto.MyCourseResponse;
 import com.grepp.datenow.app.model.course.dto.MyDateCourseDto;
 import com.grepp.datenow.app.model.course.dto.RecommendCourseRegistRequestDto;
 import com.grepp.datenow.app.model.course.service.CourseService;
+import com.grepp.datenow.app.model.image.dto.FileDto;
 import com.grepp.datenow.app.model.image.service.ImageService;
 import com.grepp.datenow.app.model.member.entity.Member;
 import com.grepp.datenow.app.model.member.service.MemberService;
@@ -76,18 +77,14 @@ public class CourseApiController {
 
     // 내가 만든 데이트 코스 추천 코스 등록 시 사진 업로드
     @PostMapping("/images")
-    public ResponseEntity<ApiResponse<?>> uploadImages(
+    public ResponseEntity<ApiResponse<List<FileDto>>> uploadImages(
         @RequestParam("images") List<MultipartFile> images
     ) {
-        // Service 에서 모든 유효성 검사 및 예외 처리를 담당
-        // 여기서 예외가 발생하면 RestApiExceptionAdvice 가 처리
-        List<String> urls = imageService.upload(images);
+        List<FileDto> urls = imageService.upload(images);
 
-        // 성공 응답은 ApiResponse 포맷으로 반환
         return ResponseEntity.ok()
             .contentType(MediaType.APPLICATION_JSON)
             .body(ApiResponse.success(urls));
-//        .body(ApiResponse.success(urls, Map.of("message", "이미지 업로드가 완료되었습니다.")));
     }
 
     // 내가 만든 데이트 코스 추천 코스로 등록 (사진 제외)

@@ -3,6 +3,7 @@ package com.grepp.datenow.app.controller.api.course;
 import com.grepp.datenow.app.model.auth.domain.Principal;
 import com.grepp.datenow.app.model.course.dto.EditorCourseSaveDto;
 import com.grepp.datenow.app.model.course.service.EditorCourseService;
+import com.grepp.datenow.app.model.image.dto.FileDto;
 import com.grepp.datenow.app.model.image.service.ImageService;
 import com.grepp.datenow.app.model.member.entity.Member;
 import com.grepp.datenow.app.model.member.service.MemberService;
@@ -45,11 +46,10 @@ public class EditorCourseApiController {
 
     // 코스 이미지 업로드 로직(코스와 따로 업로드)
     @PostMapping("/images")
-    public ResponseEntity<ApiResponse<List<String>>> uploadImages(
+    public ResponseEntity<ApiResponse<List<FileDto>>> uploadImages(
         @RequestParam("images") List<MultipartFile> images
     ) {
-
-        List<String> urls = imageService.upload(images);
-        return ResponseEntity.ok(ApiResponse.success(urls));
+        List<FileDto> files = imageService.upload(images);
+        return ResponseEntity.ok(ApiResponse.success(files));
     }
 }

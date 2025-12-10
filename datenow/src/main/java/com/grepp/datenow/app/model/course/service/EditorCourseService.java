@@ -3,6 +3,7 @@ package com.grepp.datenow.app.model.course.service;
 import com.grepp.datenow.app.model.course.dto.EditorCourseSaveDto;
 import com.grepp.datenow.app.model.course.entity.EditorCourse;
 import com.grepp.datenow.app.model.course.repository.EditorCourseRepository;
+import com.grepp.datenow.app.model.image.dto.FileDto;
 import com.grepp.datenow.app.model.image.entity.Image;
 import com.grepp.datenow.app.model.image.repository.ImageRepository;
 import com.grepp.datenow.app.model.member.entity.Member;
@@ -42,13 +43,13 @@ public class EditorCourseService {
         }
 
         // 3. 이미지 정보 저장 (이미 업로드된 경로를 이용함)
-        for (String imagePath : dto.imageUrls()) {
+        for (FileDto fileDto : dto.imageUrls()) {
             Image image = Image.builder()
                 .editorCourseId(course)
-                .originFileName(extractFileName(imagePath))
-                .renameFileName(extractFileName(imagePath))
-                .savePath(imagePath)
-                .type("image")
+                .originFileName(fileDto.originFileName())
+                .renameFileName(fileDto.renameFileName())
+                .savePath(fileDto.savePath())
+                .type(fileDto.contentType())
                 .build();
             imageRepository.save(image);
         }

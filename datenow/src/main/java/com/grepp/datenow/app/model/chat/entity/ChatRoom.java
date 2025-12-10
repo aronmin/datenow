@@ -33,16 +33,9 @@ public class ChatRoom {
   @JoinColumn(name = "user2" )
   private Member user2;
 
-//  @Enumerated(EnumType.STRING)
-//  private MessageType type;
-
-
   private String lastMessage;
-
 
   private boolean visibleToUser1 = true;
   private boolean visibleToUser2 = true;
-
-
 
 }

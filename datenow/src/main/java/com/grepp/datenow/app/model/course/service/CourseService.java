@@ -12,6 +12,7 @@ import com.grepp.datenow.app.model.course.repository.HashtagRepository;
 import com.grepp.datenow.app.model.course.repository.MyCourseRepository;
 import com.grepp.datenow.app.model.course.repository.RecommendCourseRepository;
 import com.grepp.datenow.app.model.course.repository.RegistMyCourseRepository;
+import com.grepp.datenow.app.model.image.dto.FileDto;
 import com.grepp.datenow.app.model.image.entity.Image;
 import com.grepp.datenow.app.model.image.repository.ImageRepository;
 import com.grepp.datenow.app.model.member.entity.Member;
@@ -137,10 +138,10 @@ public class CourseService {
     }
 
     @Transactional
-    public void registerToRecommendCourse(Long courseId, List<String> imageUrls) {
+    public void registerToRecommendCourse(Long courseId, List<FileDto> imageFiles) {
         Course course = getCourseById(courseId);
 
-        if (imageUrls == null || imageUrls.isEmpty()) {
+        if (imageFiles == null || imageFiles.isEmpty()) {
             throw new IllegalArgumentException("추천 코스 등록을 위해서는 최소 1장의 이미지가 필요합니다.");
         }
 
@@ -155,13 +156,13 @@ public class CourseService {
         recommendCourseRepository.save(recommendCourse);
 
         // 이미지 처리
-        for (String imagePath : imageUrls) {
+        for (FileDto fileDto : imageFiles) {
             Image image = Image.builder()
                 .recommendCourseId(recommendCourse)
-                .originFileName(extractFileName(imagePath))
-                .renameFileName(extractFileName(imagePath))
-                .savePath(imagePath)
-                .type("image")
+                .originFileName(fileDto.originFileName())
+                .renameFileName(fileDto.renameFileName())
+                .savePath(fileDto.savePath())
+                .type(fileDto.contentType())
                 .build();
             imageRepository.save(image);
         }
