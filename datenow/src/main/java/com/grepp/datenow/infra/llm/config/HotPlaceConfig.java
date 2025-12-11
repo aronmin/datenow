@@ -32,7 +32,7 @@ public class HotPlaceConfig {
             .build();
 
         return MongoDbEmbeddingStore.builder()
-            .databaseName("llm")
+            .databaseName("datenow")
             .collectionName("places")
             .createIndex(createIndex)
             .indexName("vector_index")

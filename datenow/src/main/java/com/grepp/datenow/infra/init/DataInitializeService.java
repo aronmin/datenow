@@ -11,12 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class DataInitializeService {
 
     private final EmbeddingModel embeddingModel;
@@ -24,12 +26,17 @@ public class DataInitializeService {
 
     public void initializeVector() {
         try {
+            if (hotPlaceEmbeddingRepository.count() > 0) {
+                log.info("hot_places.json 데이터가 이미 존재하므로 초기화를 건너뜁니다.");
+                return;
+            }
+
             String HOT_PLACE_JSON_PATH = "src/main/resources/hot_places.json";
 
             List<HotPlaceJson> hotPlaceJsons = JsonReader.readHotPlacesFromJson(HOT_PLACE_JSON_PATH);
 
             if (hotPlaceJsons == null || hotPlaceJsons.isEmpty()) {
-                System.out.println("JSON 파일이 비어 있거나 읽을 수 없습니다.");
+                log.info("JSON 파일이 비어 있거나 읽을 수 없습니다.");
                 return;
             }
 
@@ -79,10 +86,10 @@ public class DataInitializeService {
 
             // HotPlaceEmbedding 객체들을 MongoDB에 저장
             hotPlaceEmbeddingRepository.saveAll(hotPlaceEmbeddings);
-            System.out.println("핫플레이스 정보를 MongoDB에 저장했습니다.");
+            log.info("hot_places.json을 MongoDB에 저장했습니다.");
 
         } catch (IOException e) {
-            System.err.println("JSON 파일 처리 오류: " + e.getMessage());
+            log.error("JSON 파일 처리 오류: ", e);
         }
     }
 }
