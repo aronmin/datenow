@@ -18,7 +18,7 @@ public class AdminController {
     // 엔드포인트 수정 요망 > editor-courses
     @GetMapping("/recommend-courses")
     public String adminCourseSearch(){
-        return "adminPageCourse"; // 페이지 이름도 에디터픽 코스라는 것을 명시해야 함
+        return "admin_pageCourse"; // 페이지 이름도 에디터픽 코스라는 것을 명시해야 함
     // 그냥 추천 코스인지 구분 불가
     }
 

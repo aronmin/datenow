@@ -9,7 +9,7 @@ public class IndexController {
     // 메인 페이지
     @GetMapping("/")
     public String main() {
-        return "/mainPage";
+        return "main_page";
     }
     
 }

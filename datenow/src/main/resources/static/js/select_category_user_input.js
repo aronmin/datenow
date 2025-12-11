@@ -1,27 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // 1) 날짜 입력
-  const dateInput = document.getElementById('dateInput');
-  if (dateInput) {
-    dateInput.addEventListener('click', () => {
-      const picker = document.createElement('input');
-      picker.type = 'date';
-      picker.style.position = 'absolute';
-      picker.style.opacity = 0;
-      document.body.appendChild(picker);
-      picker.focus();
-      picker.onchange = function() {
-        dateInput.value = this.value;
-        document.body.removeChild(picker);
-      };
-      picker.onblur = function() {
-        setTimeout(() => {
-          if (document.body.contains(picker)) document.body.removeChild(picker);
-        }, 200);
-      };
-    });
-  }
-
-  // 2) 카테고리(최대 3개) 선택 로직
+  // 카테고리(최대 3개) 선택 로직
   const MAX_CAT = 3;
   const selectedCats = new Set();
   document.querySelectorAll('.category-btn').forEach(btn => {
@@ -44,8 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.querySelector('.ai-btn')?.addEventListener('click', () => {
-    const date = document.getElementById('dateInput')?.value;
-    if (!date) return alert('날짜를 선택해주세요.');
     if (selectedCats.size === 0) return alert('카테고리를 선택해주세요!');
 
     const moods = [...selectedCats];
@@ -86,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const places = JSON.parse(clean);
 
       sessionStorage.setItem('recommendedPlaces', JSON.stringify(places));
-      sessionStorage.setItem('selectedDate', date);
 
       window.location.href = `/course-composition`;
     })

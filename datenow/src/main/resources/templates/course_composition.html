@@ -12,18 +12,12 @@
 <div th:replace="~{fragments/header :: header}"></div>
 
 <br>
-
-<div class="selected-date-section" id="selectedDateBox"
-     style="padding: 16px 24px; font-size: 14px; color: #666;">
-  <strong>선택한 날짜:</strong> <span id="selectedDateText"></span>
-</div>
-
 <div class="course-meta" style="margin-bottom: 20px;">
   <label>📌 데이트 코스의 제목을 정해주세요!</label>
   <input id="courseTitle" type="text" placeholder="예: 로맨틱한 강남 데이트"/>
 </div>
 
-<div class="course-input-group" style="margin-bottom: 20px;">
+<div class="course-meta" style="margin-bottom: 20px;">
   <label for="hashtagInput"># 해시태그:</label>
   <input type="text" id="hashtagInput" placeholder="#맛집 (입력 후 Space/Enter)">
   <div id="hashtagChipsContainer" class="hashtag-chip-container">

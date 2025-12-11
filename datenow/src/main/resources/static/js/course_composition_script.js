@@ -44,11 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    const selectedDate = sessionStorage.getItem('selectedDate');
-    if (selectedDate) {
-        document.getElementById('selectedDateText').textContent = selectedDate;
-    }
-
     // ⭐⭐ [추가] 4. 해시태그 입력 필드에 이벤트 리스너 연결 ⭐⭐
     const hashtagInput = document.getElementById('hashtagInput');
     if (hashtagInput) {
@@ -502,7 +497,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const courseItems = document.querySelectorAll('.course-item');
         const title = document.getElementById('courseTitle')?.value.trim();
         const description = document.getElementById('courseDescription')?.value.trim();
-        const date = sessionStorage.getItem('selectedDate');
 
         if (!title || !description) {
             alert("제목과 소개글을 모두 입력해주세요.");
@@ -525,7 +519,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const payload = {
             title,
             description,
-            date,
             places: selectedPlaces,
             hashtagNames: currentHashtags // ⭐ 해시태그 목록 추가
         };
