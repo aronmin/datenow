@@ -9,10 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BadWordFilterService {
 
     private final List<String> badWords = new ArrayList<>();
@@ -29,7 +31,7 @@ public class BadWordFilterService {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Failed to load bad words from file: " + e.getMessage());
+            log.error("Failed to load bad words from file: ", e);
         }
         return loadedWords;
     }

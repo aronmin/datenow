@@ -62,7 +62,6 @@ public class CourseService {
         if (!uploadDir.exists()) {
             uploadDir.mkdirs();
         }
-        log.info("File upload path initialized to: {}", uploadPath);
     }
 
     @Transactional
@@ -127,13 +126,11 @@ public class CourseService {
     }
 
     public Course getCourseById(Long courseId) {
-        log.info("Finding course with ID: {}", courseId);
         Course course = courseRepository.findById(courseId)
             .orElseThrow(() -> {
                 log.error("Course not found with id: {}", courseId);
                 return new EntityNotFoundException("Course not found with id: " + courseId);
             });
-        log.info("Found course: {}", course);
         return course;
     }
 

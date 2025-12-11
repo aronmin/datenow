@@ -49,7 +49,6 @@ public class ChatApiController {
     public ResponseEntity<?> chatRoomList(Authentication auth){
         Member user = memberRepository.findByUserId(auth.getName())
             .orElseThrow();
-        log.info(auth.getName());
         List<ResponseChatRoomDto> dto = chatService.chatRoomList(user);
 
         return ResponseEntity.ok(ApiResponse.success(dto));
@@ -60,7 +59,6 @@ public class ChatApiController {
         Authentication auth,
         @PathVariable Long roomId
     ){
-        log.info(auth.getName());
         List<ChattingResponseDto> chatting = chatService.userChatting(roomId, auth);
 
         return ResponseEntity.ok(ApiResponse.success(chatting));

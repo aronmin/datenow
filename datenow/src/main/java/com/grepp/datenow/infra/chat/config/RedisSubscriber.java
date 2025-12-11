@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class RedisSubsctiber implements MessageListener {
+public class RedisSubscriber implements MessageListener {
 
     private final ObjectMapper objectMapper;
     private final SimpMessageSendingOperations messageSendingOperations;
@@ -27,11 +27,8 @@ public class RedisSubsctiber implements MessageListener {
           String chat = new String(message.getBody(), StandardCharsets.UTF_8);
           ChatDto dto = objectMapper.readValue(chat, ChatDto.class);
 
-          log.info("redis subscriber received message: {}", dto.getContent());
-
           //이제 보낼때 값 보내야한다
           messageSendingOperations.convertAndSend("/topic/chat."+dto.getRoomId(),dto);
-
 
         } catch (JsonProcessingException e) {
           throw new RuntimeException(e);
