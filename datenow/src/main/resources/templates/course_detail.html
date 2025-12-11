@@ -80,7 +80,7 @@
   .then(data => {
     const imageUrl = data.imageUrl && data.imageUrl.length > 0
         ? data.imageUrl[0]
-        : "/image/bg_night.jpg";
+        : "/images/image-fallback.jpg";
     document.getElementById("thumbnail").src = imageUrl;
 
     document.getElementById("courseTitle").innerText = data.title;
@@ -108,7 +108,7 @@
 
     const imageUrls = data.imageUrl && data.imageUrl.length > 0
         ? data.imageUrl
-        : ["/image/bg_night.jpg"];
+        : ["/images/image-fallback.jpg"];
 
     renderSlider(imageUrls);
 

@@ -41,12 +41,12 @@ public class AdminService {
 
         return adminPlace.stream()
             .map(course -> {
-                Image img = imageRepository.findFirstByEditorCourseId(course).orElse(null);
+                Image img = imageRepository.findFirstByEditorCourseIdAndActivatedTrue(course).orElse(null);
                 int count = favoriteRepository.countByEditorCourse(course);
 
                 String imageUrl = (img != null)
                     ? "/images/" + img.getRenameFileName() // ✅ 설정된 웹 경로 + 파일명
-                    : "/images/bg_night.jpg";         // 기본 이미지도 동일하게
+                    : "/images/image-fallback.jpg";         // 기본 이미지도 동일하게
 
                 return new EditorCourseDto(course, imageUrl,count);
             })

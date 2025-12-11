@@ -108,7 +108,7 @@
         // ⭐⭐ [수정] 7. 이미지 URL은 백엔드에서 이미 /images/ 접두사를 붙여 보내므로 직접 사용 ⭐⭐
         const imageUrl = course.imageUrl && course.imageUrl.length > 0
             ? course.imageUrl
-            : "/image/bg_night.jpg"; // 기본 이미지
+            : "/images/image-fallback.jpg"; // 기본 이미지
 
         // ⭐⭐ [추가] 6. 해시태그 렌더링 로직 추가 ⭐⭐
         const hashtagsHtml = course.hashtagNames && course.hashtagNames.length > 0

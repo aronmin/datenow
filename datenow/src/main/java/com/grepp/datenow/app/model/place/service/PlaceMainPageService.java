@@ -49,13 +49,13 @@ public class PlaceMainPageService {
 
         List<EditorCourseDto> adminDto = adminplace.stream()
             .map(course -> {
-              Image img = imageRepository.findFirstByEditorCourseId(course).orElse(null);
+              Image img = imageRepository.findFirstByEditorCourseIdAndActivatedTrue(course).orElse(null);
               int likeCount = favoriteRepository.countByEditorCourseAndActivatedTrue(course);
 
 
               String imageUrl = (img != null)
                   ? "/images/" + img.getRenameFileName()
-                  : "/images/bg_night.jpg";
+                  : "/images/image-fallback.jpg";
 
               return new EditorCourseDto(course, imageUrl, likeCount);
             })
@@ -63,13 +63,13 @@ public class PlaceMainPageService {
 
         List<CourseDto> userDto = userplace.stream()
             .map(course -> {
-              Image img = imageRepository.findFirstByRecommendCourseId(course)
+              Image img = imageRepository.findFirstByRecommendCourseIdAndActivatedTrue(course)
                   .orElse(null);
               int count = favoriteRepository.countByRecommendCourseAndActivatedTrue(course);
               int reviewCnt = reviewRepository.countByRecommendCourseIdAndActivatedTrue(course);
               String imageUrl = (img != null)
                   ? "/images/" +  img.getRenameFileName()
-                  : "/images/bg_night.jpg";
+                  : "/images/image-fallback.jpg";
               return new CourseDto(course, imageUrl, count,reviewCnt);
 
             })
@@ -83,11 +83,11 @@ public class PlaceMainPageService {
         List<EditorCourse> adminPlace = adminCourseRepository.findAllByActivatedTrue();
         List<EditorCourseDto> adminDto = adminPlace.stream()
             .map(course -> {
-              Image img = imageRepository.findFirstByEditorCourseId(course).orElse(null);
+              Image img = imageRepository.findFirstByEditorCourseIdAndActivatedTrue(course).orElse(null);
               int likeCount = favoriteRepository.countByEditorCourseAndActivatedTrue(course);
               String imageUrl = (img != null)
                   ? "/images/" + img.getRenameFileName()
-                  : "/images/bg_night.jpg";
+                  : "/images/image-fallback.jpg";
               return new EditorCourseDto(course, imageUrl, likeCount);
             })
             .toList();
@@ -111,13 +111,13 @@ public class PlaceMainPageService {
               // Course 엔티티를 별도의 변수에 할당하여 사용하면 코드 가독성이 좋아집니다.
               Course course = recommendCourse.getCourseId(); // RecommendCourse에서 Course 엔티티를 가져옴
 
-              Image img = imageRepository.findFirstByRecommendCourseId(recommendCourse)
+              Image img = imageRepository.findFirstByRecommendCourseIdAndActivatedTrue(recommendCourse)
                   .orElse(null);
               int count = favoriteRepository.countByRecommendCourseAndActivatedTrue(recommendCourse);
               int reviewCnt = reviewRepository.countByRecommendCourseIdAndActivatedTrue(recommendCourse);
               String imageUrl = (img != null)
                   ? "/images/" +  img.getRenameFileName()
-                  : "/images/bg_night.jpg";
+                  : "/images/image-fallback.jpg";
 
               List<String> currentCourseHashtags = course.getCourseHashtags().stream() // ⭐⭐⭐ 여기서 course.getCourseHashtags()로 수정 ⭐⭐⭐
                   .map(CourseHashtag::getHashtag)
@@ -158,14 +158,14 @@ public class PlaceMainPageService {
                     .toList();
 
         placeDetail.setPlaces(placeDetailDtos);
-        List<Image> image = imageRepository.findAllByRecommendCourseId(recommendCourse);
+        List<Image> image = imageRepository.findAllByRecommendCourseIdAndActivatedTrue(recommendCourse);
         List<String> imageUrl = image.stream()
             .map(img -> {
               if(img != null){
                 return "/images/" + img.getRenameFileName();
               }
               else {
-                return  "/images/bg_night.jpg";
+                return  "/images/image-fallback.jpg";
               }
             })
                 .toList();
@@ -202,14 +202,14 @@ public class PlaceMainPageService {
             .toList();
 
         placeDetail.setPlaces(placeDetailDtos);
-        List<Image> image = imageRepository.findAllByEditorCourseId(editorCourse);
+        List<Image> image = imageRepository.findAllByEditorCourseIdAndActivatedTrue(editorCourse);
         List<String> imageUrl = image.stream()
             .map(img -> {
               if(img != null){
                 return "/images/" + img.getRenameFileName();
               }
               else {
-                return  "/images/bg_night.jpg";
+                return  "/images/image-fallback.jpg";
               }
             })
             .toList();

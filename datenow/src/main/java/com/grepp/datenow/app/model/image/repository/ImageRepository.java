@@ -12,13 +12,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ImageRepository extends JpaRepository<Image,Long> {
 
-  Optional<Image> findFirstByEditorCourseId(EditorCourse course);
+  Optional<Image> findFirstByEditorCourseIdAndActivatedTrue(EditorCourse course);
 
-  Optional<Image> findFirstByRecommendCourseId(RecommendCourse recommendCourseId);
+  Optional<Image> findFirstByRecommendCourseIdAndActivatedTrue(RecommendCourse recommendCourseId);
 
-  List<Image> findAllByRecommendCourseId(RecommendCourse recommendCourse);
+  List<Image> findAllByRecommendCourseIdAndActivatedTrue(RecommendCourse recommendCourse);
 
-  List<Image> findAllByEditorCourseId(EditorCourse places);
+  List<Image> findAllByEditorCourseIdAndActivatedTrue(EditorCourse places);
 
-  List<Image> findByRecommendCourseId_CourseId(Course course);
+  List<Image> findByRecommendCourseId_CourseIdAndActivatedTrue(Course course);
 }

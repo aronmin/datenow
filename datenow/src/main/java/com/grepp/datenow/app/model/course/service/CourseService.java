@@ -191,7 +191,7 @@ public class CourseService {
                 .toList();
         dto.setPlaces(placeDtos);
 
-        List<Image> images = imageRepository.findByRecommendCourseId_CourseId(course);
+        List<Image> images = imageRepository.findByRecommendCourseId_CourseIdAndActivatedTrue(course);
 
         List<String> imageUrls = images.stream()
                 .map(Image::getSavePath)
