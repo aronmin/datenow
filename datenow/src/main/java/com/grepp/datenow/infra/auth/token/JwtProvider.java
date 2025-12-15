@@ -35,7 +35,7 @@ public class JwtProvider {
 
     private final UserDetailsServiceImpl userDetailsService;
     
-    @Value("${jwt.secrete}")
+    @Value("${jwt.secret}")
     private String key;
     
     @Getter

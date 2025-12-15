@@ -39,7 +39,7 @@ public class PlaceApiController {
 
     // 메인페이지에서 에디터픽과 추천 코스의 최근 4개 코스 조회
     // 엔드포인트가 너무 건방짐. 메인페이지인지 어떻/게 알아. > main 이런식으로 해야지
-    @GetMapping
+    @GetMapping("/main-page-course-list")
     public ResponseEntity<?> mainPageList() {
         AdminUserTopListDto mainList = placeMainPageService.mainPagelist();
         return ResponseEntity.ok(mainList);

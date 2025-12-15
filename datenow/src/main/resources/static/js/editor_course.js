@@ -401,8 +401,23 @@ document.addEventListener('DOMContentLoaded', function() {
       method: 'POST',
       body: imageForm
     })
-    .then(res => res.ok ? res.json() : Promise.reject(res))
-    .then(imageUrls => {
+    .then(async (res) => {
+      const body = await res.json().catch(() => null);
+      if (!res.ok) throw body ?? res;
+
+      let fileDtos = Array.isArray(body) ? body : body?.data;
+
+      if (fileDtos && !Array.isArray(fileDtos)) {
+        fileDtos = [fileDtos];
+      }
+
+      if (!fileDtos || fileDtos.length === 0) {
+        throw new Error('이미지 리스트가 비어있습니다.');
+      }
+
+      return fileDtos;
+    })
+    .then((fileDtos) => {
       const selectedPlaces = [...document.querySelectorAll('.course-item')].map(item => ({
         placeName: item.querySelector('h4').textContent,
         address: item.querySelector('p').textContent,
@@ -414,7 +429,7 @@ document.addEventListener('DOMContentLoaded', function() {
         title,
         description,
         places: selectedPlaces,
-        imageUrls
+        imageUrls: fileDtos
       };
 
       return fetch('/api/editor-course/save', {

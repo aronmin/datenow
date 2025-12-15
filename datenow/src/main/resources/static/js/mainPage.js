@@ -76,7 +76,7 @@ function renderCarousel(data) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  fetch('/api')
+  fetch('/api/main-page-course-list')
   .then(response => response.json())
   .then(data => {
     const adminCourses = data.adminlist;

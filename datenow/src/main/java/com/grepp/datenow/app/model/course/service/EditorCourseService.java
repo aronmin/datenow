@@ -12,9 +12,11 @@ import com.grepp.datenow.app.model.place.entity.Place;
 import com.grepp.datenow.app.model.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class EditorCourseService {
 
     private final EditorCourseRepository editorCourseRepository;

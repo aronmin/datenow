@@ -100,6 +100,17 @@ public class SecurityConfig {
         http
             .exceptionHandling(e -> e
                 .authenticationEntryPoint((request, response, authException) -> {
+                    String url = request.getRequestURI();
+
+                    if (url.startsWith("/api/")){
+                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        response.setContentType("application/json;charset=utf-8");
+                        response.getWriter().write("""
+                {"code":"4012","message":"로그인이 필요합니다.","data":null}
+                """);
+                        return;
+                    }
+
                     response.sendRedirect("/member/signin");
                 })
             )
@@ -119,7 +130,7 @@ public class SecurityConfig {
                 .requestMatchers(POST,"/member/oauth/signup").permitAll()
                 .requestMatchers(POST, "/api/members/oauth/signup").permitAll()
                 .requestMatchers(POST, "/api/members/signup", "/member/find-password").permitAll()
-                .requestMatchers(POST,"/auth/signin").permitAll()
+                .requestMatchers(POST,"/api/auth/signin").permitAll()
                 .requestMatchers(GET, "/api/members/exists", "/api/members/check/email", "/api/members/check/nickname", "/api/members/signup").permitAll()
                 .requestMatchers("/api/members/verify").permitAll()
                 .requestMatchers("/member/verify").permitAll()
