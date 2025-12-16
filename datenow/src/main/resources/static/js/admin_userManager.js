@@ -58,9 +58,5 @@ function deleteMember(userId) {
   });
 }
 
-function editMember(id) {
-  alert(`회원 수정 기능은 아직 미구현 (ID: ${id})`);
-}
-
 // 4. 로드 시 실행
 window.onload = fetchMembers;

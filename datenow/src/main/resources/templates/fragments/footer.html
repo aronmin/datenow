@@ -16,7 +16,7 @@
       <h5>바로가기</h5>
       <div th:if="${#authorization.expression('hasRole(''USER'')')}">
       <ul>
-        <li><a th:href="@{/}">홈</a></li>
+        <li><a th:href="@{/main}">홈</a></li>
         <li><a th:href="@{/mypage}">마이페이지</a></li>
         <li><a th:href="@{/recommend-course}">코스 만들기</a></li>
       </ul>

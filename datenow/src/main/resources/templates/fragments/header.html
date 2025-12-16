@@ -1,31 +1,35 @@
-<!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>헤더</title>
-</head>
-<body>
 <!-- templates/fragments/header.html -->
 <div th:fragment="header">
   <div class="navbar">
-    <a th:href="@{/}" class="logo-link">
+    <a th:href="@{/main}" class="logo-link">
       <span class="logo">💖 DateNow</span>
     </a>
     <div class="navbar-right">
-      <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+
+      <!-- 비회원 -->
+      <div class="nav-group" th:if="${#authorization.expression('isAnonymous()')}">
         <a th:href="@{/newchat}">랜덤채팅 시작</a>
-        <a th:href="@{/admin/editor-course}">에디터 픽 코스 만들기</a>
-        <a th:href="@{/admin/users}">관리자 대시보드</a>
+        <a th:href="@{/recommend-course}">나의 코스 만들기</a>
+        <a th:href="@{/member/signin}" class="logout-button">로그인</a>
       </div>
-      <div th:if="${#authorization.expression('hasRole(''USER'')')}">
+
+      <!-- 회원 -->
+      <div class="nav-group" th:if="${#authorization.expression('hasRole(''USER'')')}">
         <a th:href="@{/newchat}">랜덤채팅 시작</a>
         <a th:href="@{/recommend-course}">나의 코스 만들기</a>
         <a th:href="@{/my-page}">마이페이지</a>
+        <button type="button" class="logout-button logout-btn">로그아웃</button>
+        <span class="profile-icon"></span>
       </div>
-      <a href="#" class="logout-button" id="logout">로그아웃</a>
-      <span class="profile-icon"></span>
+
+      <!-- 관리자 -->
+      <div class="nav-group" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+        <a th:href="@{/newchat}">랜덤채팅 시작</a>
+        <a th:href="@{/admin/editor-course}">에디터 픽 코스 만들기</a>
+        <a th:href="@{/admin/users}">관리자 대시보드</a>
+        <button type="button" class="logout-button logout-btn">로그아웃</button>
+        <span class="profile-icon"></span>
+      </div>
     </div>
   </div>
 </div>
-</body>
-</html>

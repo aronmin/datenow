@@ -16,6 +16,7 @@ public interface CourseRepository extends JpaRepository<RecommendCourse,Long> {
     SELECT rc FROM RecommendCourse rc
     JOIN FETCH rc.courseId c
     JOIN FETCH c.id
+    WHERE rc.activated = true
     ORDER BY rc.createdAt DESC
 """)
   List<RecommendCourse> findTop4ByOrderByCreatedAtDesc(Pageable pageable);
@@ -25,6 +26,7 @@ public interface CourseRepository extends JpaRepository<RecommendCourse,Long> {
     SELECT rc FROM RecommendCourse rc
     JOIN FETCH rc.courseId c
     JOIN FETCH c.id
+    WHERE rc.activated = true
     ORDER BY c.createdAt DESC
 """)
   List<RecommendCourse> findAllWithCourseAndMember();
@@ -35,6 +37,7 @@ public interface CourseRepository extends JpaRepository<RecommendCourse,Long> {
   JOIN FETCH rc.courseId c
   JOIN FETCH c.id
   WHERE rc.recommendCourseId = :id
+  AND rc.activated = true
 """)
   Optional<RecommendCourse> findWithCourseAndMemberById(@Param("id") Long id);
 
@@ -46,6 +49,7 @@ public interface CourseRepository extends JpaRepository<RecommendCourse,Long> {
       JOIN c.courseHashtags ch
       JOIN ch.hashtag h
       WHERE h.tagName IN :hashtagNames
+      AND rc.activated = true
       GROUP BY rc.recommendCourseId
       """)
   List<RecommendCourse> findAllCourseWithHashtags(

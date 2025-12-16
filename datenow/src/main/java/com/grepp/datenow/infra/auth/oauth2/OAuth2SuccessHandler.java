@@ -71,7 +71,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             response.addHeader("Set-Cookie", accessTokenCookie.toString());
             response.addHeader("Set-Cookie", refreshTokenCookie.toString());
 
-            response.sendRedirect("/");
+            response.sendRedirect("/main");
         } else {
             HttpSession session = request.getSession();
             session.setAttribute("oauth2_user_info", userInfo);

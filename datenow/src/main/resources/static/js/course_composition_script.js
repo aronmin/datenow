@@ -536,7 +536,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(msg => {
             alert('나의 데이트 코스가 등록되었습니다!');
-            window.location.href = '/';
+            window.location.href = '/main';
         })
         .catch(err => {
             console.error('코스 저장 실패:', err);

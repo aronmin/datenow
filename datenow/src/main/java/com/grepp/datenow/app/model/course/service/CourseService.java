@@ -21,6 +21,8 @@ import com.grepp.datenow.app.model.place.dto.PlaceSaveDto;
 import com.grepp.datenow.app.model.place.entity.Place;
 import com.grepp.datenow.app.model.place.repository.PlaceRepository;
 import com.grepp.datenow.infra.error.exception.course.BadWordsException;
+import com.grepp.datenow.infra.error.exception.course.PayloadEmptyException;
+import com.grepp.datenow.infra.error.exception.course.AlreadyRegisteredException;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityNotFoundException;
 import java.io.File;
@@ -139,11 +141,11 @@ public class CourseService {
         Course course = getCourseById(courseId);
 
         if (imageFiles == null || imageFiles.isEmpty()) {
-            throw new IllegalArgumentException("추천 코스 등록을 위해서는 최소 1장의 이미지가 필요합니다.");
+            throw new PayloadEmptyException("추천 코스 등록을 위해서는 최소 1장의 이미지가 필요합니다.");
         }
 
         if (recommendCourseRepository.existsByCourseId(course)) {
-            throw new IllegalStateException("이미 추천 코스로 등록된 코스입니다.");
+            throw new AlreadyRegisteredException("이미 추천 코스로 등록된 코스입니다.");
         }
 
         // 추천 코스 생성 및 저장
@@ -171,10 +173,6 @@ public class CourseService {
         return courses.stream()
             .map(course -> new MyCourseResponse(course.getCoursesId(), course.getTitle()))
             .collect(Collectors.toList());
-    }
-
-    private String extractFileName(String path) {
-        return path.substring(path.lastIndexOf('/') + 1);
     }
 
     @Transactional(readOnly = true)

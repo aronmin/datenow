@@ -127,7 +127,7 @@ document.getElementById('signupForm').addEventListener('submit', function (e) {
   })
   .then(json => {
     alert(json.data.message || '회원가입이 완료되었습니다.');
-    window.location.href = '/';
+    window.location.href = '/main';
   })
   .catch(err => {
     alert('회원가입 중 오류가 발생했습니다.');

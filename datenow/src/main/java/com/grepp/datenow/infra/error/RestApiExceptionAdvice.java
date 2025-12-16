@@ -2,6 +2,8 @@ package com.grepp.datenow.infra.error;
 
 import com.grepp.datenow.infra.error.exception.course.BadWordsException;
 import com.grepp.datenow.infra.error.exception.CommonException;
+import com.grepp.datenow.infra.error.exception.course.AlreadyRegisteredException;
+import com.grepp.datenow.infra.error.exception.course.PayloadEmptyException;
 import com.grepp.datenow.infra.error.exception.image.ImageUploadException;
 import com.grepp.datenow.infra.error.exception.image.InvalidFileFormatException;
 import com.grepp.datenow.infra.response.ApiResponse;
@@ -47,6 +49,14 @@ public class RestApiExceptionAdvice {
             .status(ResponseCode.INTERNAL_SERVER_ERROR.status()) // 500 Internal Server Error
             .body(ApiResponse.fail(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage()));
     }
+
+    // 이미지 없을시
+    @ExceptionHandler(PayloadEmptyException.class)
+    public ResponseEntity<ApiResponse<?>> handleNoImageException(PayloadEmptyException e) {
+        return ResponseEntity
+            .status(ResponseCode.PAYLOAD_EMPTY.status())
+            .body(ApiResponse.fail(ResponseCode.PAYLOAD_EMPTY, e.getMessage()));
+    }
     // 여기까지 Image Upload 관련
 
     @ExceptionHandler(BadWordsException.class)
@@ -56,4 +66,11 @@ public class RestApiExceptionAdvice {
             .body(ApiResponse.fail(ResponseCode.BAD_WORD, e.getMessage()));
     }
 
+    // 이미 등록된 코스일 경우
+    @ExceptionHandler(AlreadyRegisteredException.class)
+    public ResponseEntity<ApiResponse<?>> handleAlreadyRegister(AlreadyRegisteredException e) {
+        return ResponseEntity
+            .status(ResponseCode.ALREADY_REGISTERED.status())
+            .body(ApiResponse.fail(ResponseCode.ALREADY_REGISTERED, e.getMessage()));
+    }
 }

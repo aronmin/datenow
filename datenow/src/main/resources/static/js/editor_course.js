@@ -443,7 +443,7 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(res => res.ok ? res.text() : Promise.reject(res))
     .then(() => {
       alert('등록 완료!');
-      window.location.href = '/';
+      window.location.href = '/main';
     })
     .catch(err => {
       console.error(err);

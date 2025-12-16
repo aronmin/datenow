@@ -125,6 +125,7 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests((requests) -> requests
                 .requestMatchers(GET, "/css/**", "/js/**", "/images/**").permitAll()
+                .requestMatchers(GET, "/main","/api/main-page-course-list", "/api/top-liked-course").permitAll()
                 .requestMatchers(GET, "/member/signup", "/member/signup/**", "/member/signin", "/member/find-password").permitAll()
                 .requestMatchers(GET,"/member/oauth/signup").permitAll()
                 .requestMatchers(POST,"/member/oauth/signup").permitAll()
