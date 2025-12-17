@@ -1,9 +1,12 @@
 package com.grepp.datenow.infra.error;
 
+import com.grepp.datenow.infra.error.exception.course.AlreadyDeactivatedException;
 import com.grepp.datenow.infra.error.exception.course.BadWordsException;
 import com.grepp.datenow.infra.error.exception.CommonException;
 import com.grepp.datenow.infra.error.exception.course.AlreadyRegisteredException;
+import com.grepp.datenow.infra.error.exception.course.NotFoundException;
 import com.grepp.datenow.infra.error.exception.course.PayloadEmptyException;
+import com.grepp.datenow.infra.error.exception.course.UnauthorizedAccessException;
 import com.grepp.datenow.infra.error.exception.image.ImageUploadException;
 import com.grepp.datenow.infra.error.exception.image.InvalidFileFormatException;
 import com.grepp.datenow.infra.response.ApiResponse;
@@ -68,9 +71,30 @@ public class RestApiExceptionAdvice {
 
     // 이미 등록된 코스일 경우
     @ExceptionHandler(AlreadyRegisteredException.class)
-    public ResponseEntity<ApiResponse<?>> handleAlreadyRegister(AlreadyRegisteredException e) {
+    public ResponseEntity<ApiResponse<?>> handleAlreadyRegisterException(AlreadyRegisteredException e) {
         return ResponseEntity
             .status(ResponseCode.ALREADY_REGISTERED.status())
             .body(ApiResponse.fail(ResponseCode.ALREADY_REGISTERED, e.getMessage()));
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ApiResponse<?>> NotFoundException(NotFoundException e) {
+        return ResponseEntity
+            .status(ResponseCode.NOT_FOUND.status())
+            .body(ApiResponse.fail(ResponseCode.NOT_FOUND, e.getMessage()));
+    }
+
+    @ExceptionHandler(UnauthorizedAccessException.class)
+    public ResponseEntity<ApiResponse<?>> handleUnauthorizedAccessException(UnauthorizedAccessException e) {
+        return ResponseEntity
+            .status(ResponseCode.FORBIDDEN.status())
+            .body(ApiResponse.fail(ResponseCode.FORBIDDEN, e.getMessage()));
+    }
+
+    @ExceptionHandler(AlreadyDeactivatedException.class)
+    public ResponseEntity<ApiResponse<?>> handleAlreadyDeactivatedException(AlreadyDeactivatedException e) {
+        return ResponseEntity
+            .status(ResponseCode.ALREADY_PROCESSED.status())
+            .body(ApiResponse.fail(ResponseCode.ALREADY_PROCESSED, e.getMessage()));
     }
 }

@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MyCourseRepository extends JpaRepository<Course, Long> {
 
-    List<Course> findById(Member id);
+    List<Course> findByIdAndActivatedTrue(Member id);
 
 }

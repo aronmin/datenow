@@ -20,9 +20,13 @@ import com.grepp.datenow.app.model.place.dto.PlaceDetailDto;
 import com.grepp.datenow.app.model.place.dto.PlaceSaveDto;
 import com.grepp.datenow.app.model.place.entity.Place;
 import com.grepp.datenow.app.model.place.repository.PlaceRepository;
-import com.grepp.datenow.infra.error.exception.course.BadWordsException;
-import com.grepp.datenow.infra.error.exception.course.PayloadEmptyException;
+import com.grepp.datenow.app.model.place.service.PlaceMainPageService;
+import com.grepp.datenow.infra.error.exception.course.AlreadyDeactivatedException;
 import com.grepp.datenow.infra.error.exception.course.AlreadyRegisteredException;
+import com.grepp.datenow.infra.error.exception.course.BadWordsException;
+import com.grepp.datenow.infra.error.exception.course.NotFoundException;
+import com.grepp.datenow.infra.error.exception.course.PayloadEmptyException;
+import com.grepp.datenow.infra.error.exception.course.UnauthorizedAccessException;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityNotFoundException;
 import java.io.File;
@@ -49,6 +53,7 @@ public class CourseService {
     private final HashtagRepository hashtagRepository;
     private final ModelMapper modelMapper;
     private final BadWordFilterService badWordFilterService;
+    private final PlaceMainPageService placeMainPageService;
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -169,7 +174,7 @@ public class CourseService {
 
     @Transactional(readOnly = true)
     public List<MyCourseResponse> findMyCourses(Member member) {
-        List<Course> courses = myCourseRepository.findById(member);
+        List<Course> courses = myCourseRepository.findByIdAndActivatedTrue(member);
         return courses.stream()
             .map(course -> new MyCourseResponse(course.getCoursesId(), course.getTitle()))
             .collect(Collectors.toList());
@@ -198,7 +203,7 @@ public class CourseService {
 
         // Course 엔티티에서 CourseHashtag 컬렉션 가져오기
         List<String> hashtagNames = course.getCourseHashtags().stream()
-            // CourseHashtag 객체에서 실제 Hashtag 엔티티를 가져옴
+            // CourseHashtag 객체에서 실제 Hashtag 엔티티를    가져옴
             .map(CourseHashtag::getHashtag)
             // Hashtag 엔티티에서 tagName 을 가져옴
             .map(Hashtag::getTagName)
@@ -208,8 +213,28 @@ public class CourseService {
         return dto;
     }
 
+    @Transactional(readOnly = true)
     public CourseDto getTopLikedCourse() {
-        RecommendCourse rc = recommendCourseRepository.findTopLikedRecommendCourse();
+        RecommendCourse rc = recommendCourseRepository.findTopLikedRecommendCourse()
+            .orElseThrow(() -> new NotFoundException("인기 코스가 존재하지 않습니다."));
         return new CourseDto(rc);
+    }
+
+    @Transactional
+    public void deactivateCourse(Long courseId, Member member) {
+
+        Course course = courseRepository.findById(courseId)
+            .orElseThrow(() -> new NotFoundException("코스를 찾을 수 없습니다."));
+
+        if(!course.getId().getId().equals(member.getId())) {
+            throw new UnauthorizedAccessException("본인이 작성한 코스만 비활성화할 수 있습니다.");
+        }
+
+        if (!course.getActivated()) {
+            throw new AlreadyDeactivatedException("이미 비활성화된 코스입니다.");
+        }
+
+        course.unActivated();
+        placeMainPageService.deactivateRecommendCourse(course);
     }
 }

@@ -21,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -124,5 +125,17 @@ public class CourseApiController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("Internal server error");
         }
+    }
+
+    @PatchMapping("/{courseId}/deactivate")
+    public ResponseEntity<ApiResponse<?>> deactivateCourse(
+        @PathVariable Long courseId,
+        @AuthenticationPrincipal Principal principal
+    ) {
+        String userId = principal.getUsername();
+        Member member = memberService.findByUserId(userId);
+        courseService.deactivateCourse(courseId, member);
+        log.info("Deactivated course : {}, member : {}", courseId, member);
+        return ResponseEntity.ok(ApiResponse.noContent());
     }
 }

@@ -53,9 +53,6 @@ public class FavoriteService {
 
       favoriteRepository.save(favoriteCourse);
     }
-
-
-
   }
 
   @Transactional
@@ -83,9 +80,6 @@ public class FavoriteService {
       favoriteRepository.save(favoriteCourse);
 
     }
-
-
-
   }
 
   public boolean isLiked(String userId, Long recommendId) {

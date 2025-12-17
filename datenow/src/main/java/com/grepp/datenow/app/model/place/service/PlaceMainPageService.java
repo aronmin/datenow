@@ -5,12 +5,13 @@ import com.grepp.datenow.app.model.course.dto.CourseDto;
 import com.grepp.datenow.app.model.course.dto.EditorCourseDto;
 import com.grepp.datenow.app.model.course.dto.EditorDetailCourseDto;
 import com.grepp.datenow.app.model.course.entity.Course;
-import com.grepp.datenow.app.model.course.entity.EditorCourse;
-import com.grepp.datenow.app.model.course.entity.RecommendCourse;
 import com.grepp.datenow.app.model.course.entity.CourseHashtag;
+import com.grepp.datenow.app.model.course.entity.EditorCourse;
 import com.grepp.datenow.app.model.course.entity.Hashtag;
+import com.grepp.datenow.app.model.course.entity.RecommendCourse;
 import com.grepp.datenow.app.model.course.repository.AdminCourseRepository;
 import com.grepp.datenow.app.model.course.repository.CourseRepository;
+import com.grepp.datenow.app.model.course.repository.RecommendCourseRepository;
 import com.grepp.datenow.app.model.image.entity.Image;
 import com.grepp.datenow.app.model.image.repository.ImageRepository;
 import com.grepp.datenow.app.model.like.repository.FavoriteRepository;
@@ -20,11 +21,11 @@ import com.grepp.datenow.app.model.place.entity.Place;
 import com.grepp.datenow.app.model.place.repository.PlaceRepository;
 import com.grepp.datenow.app.model.review.repository.ReviewRepository;
 import jakarta.persistence.EntityNotFoundException;
-import java.util.stream.Collectors;
-import org.springframework.data.domain.Pageable;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +40,7 @@ public class PlaceMainPageService {
     private final PlaceRepository placeRepository;
     private final ReviewRepository reviewRepository;
     private final FavoriteRepository favoriteRepository;
+    private final RecommendCourseRepository recommendCourseRepository;
 
     @Transactional
     public AdminUserTopListDto mainPagelist() {
@@ -216,5 +218,15 @@ public class PlaceMainPageService {
 
         placeDetail.setImageUrl(imageUrl);
         return placeDetail;
+    }
+
+    @Transactional
+    public void deactivateRecommendCourse(Course course){
+        recommendCourseRepository.findByCourseIdAndActivatedTrue(course)
+            .ifPresent(recommendCourse -> {
+                recommendCourse.unActivated();
+                favoriteRepository.deactiveAllByRecommendCourse(recommendCourse);
+            });
+
     }
 }

@@ -8,7 +8,7 @@ public class CommonException extends RuntimeException {
 
     private final ResponseCode code;
     private final String customMessage;
-    private String redirect = "/";
+    private String redirect = "/main";
 
     public CommonException(ResponseCode code) {
         this.code = code;

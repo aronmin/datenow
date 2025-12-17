@@ -4,9 +4,11 @@ import com.grepp.datenow.app.model.course.entity.EditorCourse;
 import com.grepp.datenow.app.model.course.entity.RecommendCourse;
 import com.grepp.datenow.app.model.like.entity.FavoriteCourse;
 import com.grepp.datenow.app.model.member.entity.Member;
+import feign.Param;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -33,4 +35,13 @@ public interface FavoriteRepository extends JpaRepository<FavoriteCourse,Long> {
         "LEFT JOIN FETCH f.editorCourse ec " +
         "WHERE f.member.id = :memberId AND f.activated = true")
     List<FavoriteCourse> findByMemberId(Integer memberId);
+
+    @Modifying
+    @Query("""
+    UPDATE FavoriteCourse f
+    SET f.activated = false
+    WHERE f.recommendCourse = :recommendCourse
+    AND f.activated = true
+    """)
+    int deactiveAllByRecommendCourse(@Param("recommendCourse") RecommendCourse recommendCourse);
 }

@@ -21,5 +21,7 @@ public interface RecommendCourseRepository extends JpaRepository<RecommendCourse
     ORDER BY COUNT(fc.id) DESC
     LIMIT 1
     """)
-    RecommendCourse findTopLikedRecommendCourse();
+    Optional<RecommendCourse> findTopLikedRecommendCourse();
+
+    Optional<RecommendCourse> findByCourseIdAndActivatedTrue(Course course);
 }

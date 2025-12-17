@@ -15,6 +15,8 @@ public enum ResponseCode {
     PAYLOAD_TOO_LARGE("4013", HttpStatus.PAYLOAD_TOO_LARGE, "요청된 이미지의 크기가 너무 큽니다."),
     PAYLOAD_EMPTY("4014", HttpStatus.BAD_REQUEST, "최소 1장의 이미지가 필요합니다."),
     ALREADY_REGISTERED("4015", HttpStatus.CONFLICT , "이미 등록되어 있습니다."),
+    ALREADY_PROCESSED("4016", HttpStatus.CONFLICT, "이미 처리된 요청입니다."),
+    FORBIDDEN("4017", HttpStatus.FORBIDDEN, "권한이 없습니다."),
     BAD_WORD("4005", HttpStatus.BAD_REQUEST, "비속어가 감지되었습니다."),
     INTERNAL_SERVER_ERROR("5000", HttpStatus.INTERNAL_SERVER_ERROR, "서버에러 입니다."),
     SECURITY_INCIDENT("6000", HttpStatus.UNAUTHORIZED, "계정에 비정상적인 접근이 감지되었습니다.");

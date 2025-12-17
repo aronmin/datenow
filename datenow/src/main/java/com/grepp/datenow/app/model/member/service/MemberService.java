@@ -184,7 +184,7 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public List<MyCourseResponse> findMyCourses(Member member) {
-        List<Course> courses = myCourseRepository.findById(member);
+        List<Course> courses = myCourseRepository.findByIdAndActivatedTrue(member);
 
         return courses.stream()
             .map(c -> new MyCourseResponse(c.getCoursesId(), c.getTitle()))
