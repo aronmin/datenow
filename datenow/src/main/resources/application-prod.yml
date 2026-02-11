@@ -1,0 +1,72 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+      database: datenow
+    redis:
+      host: ${REDIS_HOST}
+      username: ${REDIS_USERNAME}
+      password: ${REDIS_PASSWORD}
+      port: ${REDIS_PORT}
+      ssl:
+        enabled: true
+
+  mail:
+    host: smtp.gmail.com
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET}
+
+jwt:
+  secret: ${JWT_SECRET}
+  access-expiration: 1800000
+  refresh-expiration: 604800000
+
+kakao:
+  api:
+    key: ${KAKAO_API_KEY}
+
+langchain4j:
+  google-ai-gemini:
+    chat-model:
+      api-key: ${GEMINI_API_KEY}
+      model-name: gemini-2.5-flash-lite
+      log-requests-and-responses: false
+      max-output-tokens: 500
+
+cloud:
+  aws:
+    s3:
+      bucket: datenow-web-page
+    stack:
+      auto: false
+    region:
+      static: ap-northeast-2
+    credentials:
+      access-key: ${AWS_ACCESS_KEY_ID}
+      secret-key: ${AWS_SECRET_ACCESS_KEY}

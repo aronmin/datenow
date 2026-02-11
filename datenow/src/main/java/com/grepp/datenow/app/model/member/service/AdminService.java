@@ -45,7 +45,7 @@ public class AdminService {
                 int count = favoriteRepository.countByEditorCourse(course);
 
                 String imageUrl = (img != null)
-                    ? "/images/" + img.getRenameFileName() // ✅ 설정된 웹 경로 + 파일명
+                    ? "/images/" + img.getSavePath() // s3 url
                     : "/images/image-fallback.jpg";         // 기본 이미지도 동일하게
 
                 return new EditorCourseDto(course, imageUrl,count);

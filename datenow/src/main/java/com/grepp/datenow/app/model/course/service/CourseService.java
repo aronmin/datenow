@@ -163,7 +163,7 @@ public class CourseService {
         for (FileDto fileDto : imageFiles) {
             Image image = Image.builder()
                 .recommendCourseId(recommendCourse)
-                .originFileName(fileDto.originFileName())
+                .originFileName(    fileDto.originFileName())
                 .renameFileName(fileDto.renameFileName())
                 .savePath(fileDto.savePath())
                 .type(fileDto.contentType())

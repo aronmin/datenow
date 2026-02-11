@@ -56,7 +56,7 @@ public class PlaceMainPageService {
 
 
               String imageUrl = (img != null)
-                  ? "/images/" + img.getRenameFileName()
+                  ? img.getSavePath() // s3 url
                   : "/images/image-fallback.jpg";
 
               return new EditorCourseDto(course, imageUrl, likeCount);
@@ -70,7 +70,7 @@ public class PlaceMainPageService {
               int count = favoriteRepository.countByRecommendCourseAndActivatedTrue(course);
               int reviewCnt = reviewRepository.countByRecommendCourseIdAndActivatedTrue(course);
               String imageUrl = (img != null)
-                  ? "/images/" +  img.getRenameFileName()
+                  ? img.getSavePath() // s3 url
                   : "/images/image-fallback.jpg";
               return new CourseDto(course, imageUrl, count,reviewCnt);
 
@@ -88,7 +88,7 @@ public class PlaceMainPageService {
               Image img = imageRepository.findFirstByEditorCourseIdAndActivatedTrue(course).orElse(null);
               int likeCount = favoriteRepository.countByEditorCourseAndActivatedTrue(course);
               String imageUrl = (img != null)
-                  ? "/images/" + img.getRenameFileName()
+                  ? img.getSavePath() // s3 url
                   : "/images/image-fallback.jpg";
               return new EditorCourseDto(course, imageUrl, likeCount);
             })
@@ -118,7 +118,7 @@ public class PlaceMainPageService {
               int count = favoriteRepository.countByRecommendCourseAndActivatedTrue(recommendCourse);
               int reviewCnt = reviewRepository.countByRecommendCourseIdAndActivatedTrue(recommendCourse);
               String imageUrl = (img != null)
-                  ? "/images/" +  img.getRenameFileName()
+                  ? img.getSavePath() // s3 url
                   : "/images/image-fallback.jpg";
 
               List<String> currentCourseHashtags = course.getCourseHashtags().stream() // ⭐⭐⭐ 여기서 course.getCourseHashtags()로 수정 ⭐⭐⭐
@@ -164,7 +164,7 @@ public class PlaceMainPageService {
         List<String> imageUrl = image.stream()
             .map(img -> {
               if(img != null){
-                return "/images/" + img.getRenameFileName();
+                return img.getSavePath(); // s3 url
               }
               else {
                 return  "/images/image-fallback.jpg";
@@ -208,7 +208,7 @@ public class PlaceMainPageService {
         List<String> imageUrl = image.stream()
             .map(img -> {
               if(img != null){
-                return "/images/" + img.getRenameFileName();
+                return img.getSavePath(); // s3 url;
               }
               else {
                 return  "/images/image-fallback.jpg";

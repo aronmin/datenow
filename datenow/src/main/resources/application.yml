@@ -1,0 +1,32 @@
+spring:
+  profiles:
+    active: local
+
+# Multipart 공통 설정
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 50MB
+
+# JPA 공통 옵션
+  jpa:
+    open-in-view: false
+
+# Cache 공통
+  cache:
+    type: caffeine
+    cache-names: user-authorities
+    caffeine:
+      spec: expireAfterWrite=3600s
+
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+# Logging 기본 (공통 최소값)
+logging:
+  level:
+    root: WARN
