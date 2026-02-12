@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,6 +40,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MemberService {
+
+    @Value("${APP_DOMAIN}")
+    private String appDomain;
 
     private final MemberRepository memberRepository;
     private final MyCourseRepository myCourseRepository;
@@ -84,7 +88,7 @@ public class MemberService {
         OutboxPayloadDto outboxPayload = OutboxPayloadDto.builder()
             .email(dto.getEmail())
             .verifyToken(verifyToken)
-            .domain("http://localhost:8080")
+            .domain(appDomain)
             .build();
 
         // OutboxPayloadDto 를 JSON 문자열로 변환

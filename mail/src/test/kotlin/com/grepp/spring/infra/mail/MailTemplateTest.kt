@@ -18,7 +18,7 @@ class MailTemplateTest{
     @Test
     fun testSend() = runBlocking{
         val dto = SmtpDto(
-            templatePath = "/mail/signup-verification",
+            templatePath = "mail/signup-verification",
             from = "grepp",
             to = "azimemory@gmail.com",
             subject = "mail test"

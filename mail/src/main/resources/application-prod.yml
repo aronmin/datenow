@@ -28,6 +28,7 @@ logging:
 spring:
   mail:
     host: smtp.gmail.com
+    port: ${MAIL_PORT}
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
     properties:

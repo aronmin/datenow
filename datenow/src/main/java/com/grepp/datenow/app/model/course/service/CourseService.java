@@ -55,22 +55,6 @@ public class CourseService {
     private final BadWordFilterService badWordFilterService;
     private final PlaceMainPageService placeMainPageService;
 
-    @Value("${upload.path}")
-    private String uploadPath;
-
-    @PostConstruct
-    public void init() {
-        // src/main/resources/static/image 디렉토리 사용
-        String projectRoot = System.getProperty("user.dir");
-        this.uploadPath = projectRoot + File.separator + "src" + File.separator + "main" + 
-                         File.separator + "resources" + File.separator + "static" + 
-                         File.separator + "images";
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
-        }
-    }
-
     @Transactional
     public void saveCourse(MyDateCourseDto dto, Member member) {
 
