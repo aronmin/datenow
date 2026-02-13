@@ -136,6 +136,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/members/verify").permitAll()
                 .requestMatchers("/member/verify").permitAll()
                 .requestMatchers("/chatList/**", "/chatList").permitAll()
+                .requestMatchers("/actuator/health").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/**").authenticated()
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()

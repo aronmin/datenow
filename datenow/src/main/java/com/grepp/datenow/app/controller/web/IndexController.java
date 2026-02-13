@@ -11,5 +11,10 @@ public class IndexController {
     public String main() {
         return "main_page";
     }
-    
+
+    @GetMapping("/")
+    public String main2() {
+        return "main_page";
+    }
+
 }
