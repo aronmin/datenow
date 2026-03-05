@@ -6,6 +6,7 @@ import com.grepp.datenow.app.model.auth.domain.Principal;
 import com.grepp.datenow.app.model.like.dto.FavoriteCourseResponse;
 import com.grepp.datenow.app.model.like.service.FavoriteService;
 import com.grepp.datenow.app.model.member.dto.MemberDto;
+import com.grepp.datenow.app.model.member.dto.MemberInfoDto;
 import com.grepp.datenow.app.model.member.entity.Member;
 import com.grepp.datenow.app.model.member.service.MemberService;
 import com.grepp.datenow.infra.auth.oauth2.user.OAuth2UserInfo;
@@ -133,12 +134,12 @@ public class MemberApiController {
 
     // 회원 정보 수정 페이지 데이터 전달 + 마이페이지 사이드바
     @GetMapping("/info")
-    public ResponseEntity<MemberDto> getMemberInfo(
+    public ResponseEntity<MemberInfoDto> getMemberInfo(
         @AuthenticationPrincipal Principal principal
     ) {
         String userId = principal.getUsername();
         Member member = memberService.findByUserId(userId);
-        MemberDto dto = MemberDto.from(member);
+        MemberInfoDto dto = MemberInfoDto.from(member);
 
         return ResponseEntity.ok(dto);
     }
