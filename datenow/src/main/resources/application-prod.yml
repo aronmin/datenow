@@ -63,7 +63,7 @@ langchain4j:
 cloud:
   aws:
     s3:
-      bucket: datenow-web-page
+      bucket: ${AWS_BUCKET}
     stack:
       auto: false
     region:
