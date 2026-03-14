@@ -27,6 +27,9 @@ public class S3ImageStorage implements ImageStorage {
     @Value("${cloud.aws.region.static}")
     private String region;
 
+    @Value("${cloud.aws.cloudfront.domain}")
+    private String cloudfrontDomain;
+
     @Override
     public FileDto upload(MultipartFile file) {
         String originFileName = file.getOriginalFilename();
@@ -47,8 +50,8 @@ public class S3ImageStorage implements ImageStorage {
                 RequestBody.fromInputStream(file.getInputStream(), file.getSize())
             );
 
-            String savePath = String.format("https://%s.s3.%s.amazonaws.com/%s",
-                bucket, region, renameFileName);
+            String savePath = String.format("https://%s/%s",
+                cloudfrontDomain, renameFileName);
 
             return new FileDto(
                 originFileName,
