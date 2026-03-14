@@ -47,14 +47,14 @@ function renderCarousel(data) {
 
   carousel.innerHTML = '';
 
-  data.forEach(course => {
+  data.forEach((course, i) => {
     const card = document.createElement('div');
     card.className = 'course-card';
     card.onclick = () => {
       window.location.href = `/editor-recommend-courses/${course.courseId}`;
     };
     card.innerHTML = `
-      <img src="${course.imageurl}" alt="${course.title} 썸네일" />
+      <img src="${course.imageurl}" alt="${course.title} 썸네일" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'} />
       <div class="course-card-content">
         <div class="course-title">${course.title}</div>
         <div class="card-author">
