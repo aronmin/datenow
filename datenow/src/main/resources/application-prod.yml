@@ -64,8 +64,6 @@ cloud:
   aws:
     s3:
       bucket: ${AWS_BUCKET}
-    cloudfront:
-      domain: ${AWS_CLOUDFRONT_DOMAIN}
     stack:
       auto: false
     region:
