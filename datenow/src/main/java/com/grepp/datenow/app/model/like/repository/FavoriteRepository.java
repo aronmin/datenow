@@ -1,5 +1,6 @@
 package com.grepp.datenow.app.model.like.repository;
 
+import com.grepp.datenow.app.model.course.dto.CourseCountDto;
 import com.grepp.datenow.app.model.course.entity.EditorCourse;
 import com.grepp.datenow.app.model.course.entity.RecommendCourse;
 import com.grepp.datenow.app.model.like.entity.FavoriteCourse;
@@ -44,4 +45,22 @@ public interface FavoriteRepository extends JpaRepository<FavoriteCourse,Long> {
     AND f.activated = true
     """)
     int deactiveAllByRecommendCourse(@Param("recommendCourse") RecommendCourse recommendCourse);
+
+    @Query("""
+        SELECT new com.grepp.datenow.app.model.course.dto.CourseCountDto(f.editorCourse.editorCourseId, COUNT(f))
+        FROM FavoriteCourse f
+        WHERE f.editorCourse IN :courses
+        AND f.activated = true
+        GROUP BY f.editorCourse.editorCourseId
+    """)
+    List<CourseCountDto> countByEditorCoursesGrouped(@Param("courses") List<EditorCourse> courses);
+
+    @Query("""
+        SELECT new com.grepp.datenow.app.model.course.dto.CourseCountDto(f.recommendCourse.recommendCourseId, COUNT(f))
+        FROM FavoriteCourse f
+        WHERE f.recommendCourse IN :courses
+        AND f.activated = true
+        GROUP BY f.recommendCourse.recommendCourseId
+    """)
+    List<CourseCountDto> countByRecommendCoursesGrouped(@Param("courses") List<RecommendCourse> courses);
 }

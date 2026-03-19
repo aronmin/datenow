@@ -40,6 +40,11 @@
         <scope>import</scope>
       </dependency>
       <dependency>
+        <groupId>ai.djl.huggingface</groupId>
+        <artifactId>tokenizers</artifactId>
+        <version>0.29.0</version>
+      </dependency>
+      <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-dependencies</artifactId>
         <version>2024.0.1</version>
@@ -282,14 +287,6 @@
         </executions>
       </plugin>
     </plugins>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <excludes>
-          <exclude>application-local.yml</exclude>
-        </excludes>
-      </resource>
-    </resources>
   </build>
 
 </project>
