@@ -39,7 +39,7 @@ public class RefreshTokenService {
         refreshToken.setAtId(newTokenId);
 
         redisTemplate.opsForValue().set(newTokenId, refreshToken, Duration.ofSeconds(refreshToken.getTtl()));
-        redisTemplate.opsForValue().set(id, gracePeriodToken, Duration.ofSeconds(10000));
+        redisTemplate.opsForValue().set(id, gracePeriodToken, Duration.ofSeconds(10));
         return refreshToken;
     }
 
